@@ -15,5 +15,5 @@ export {
     Pieces,
     Piece,
     Cell,
-    Position
+    Position,
 };

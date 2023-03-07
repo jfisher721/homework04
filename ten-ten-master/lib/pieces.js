@@ -5,7 +5,7 @@ export class Dot extends Piece {
         super(1, 1, color);
 
         // [x]
-        
+
         this.shape[0][0] = FILL_SYMBOL;
     }
 
@@ -17,10 +17,10 @@ export class Dot extends Piece {
 export class SmallCorner extends Piece {
     constructor(color) {
         super(2, 2, color);
-        
+
         // [x][ ]
         // [x][x]
-        
+
         this.shape[0][0] = FILL_SYMBOL;
         this.shape[1][0] = FILL_SYMBOL;
         this.shape[1][1] = FILL_SYMBOL;
@@ -30,11 +30,11 @@ export class SmallCorner extends Piece {
 export class LargeCorner extends Piece {
     constructor(color) {
         super(3, 3, color);
-        
+
         // [x][ ][ ]
         // [x][ ][ ]
         // [x][x][x]
-        
+
         this.shape[0][0] = FILL_SYMBOL;
         this.shape[1][0] = FILL_SYMBOL;
         this.shape[2][0] = FILL_SYMBOL;
@@ -49,7 +49,7 @@ class LinePiece extends Piece {
     }
 
     rotate(times) {
-        if( times % 2 === 0 ) {
+        if (times % 2 === 0) {
             return;
         }
 
@@ -200,12 +200,12 @@ export const Pieces = {
     SmallBox,
     LargeBox,
     RightL,
-    LeftL
+    LeftL,
 };
 export function getRandomPiece(allowsRotate = true) {
-    let pieces = Object.values(Pieces);
-    let piece = new (pieces[Math.floor(Math.random() * pieces.length)]);
-    let times = Math.floor(Math.random() * 4);
+    const pieces = Object.values(Pieces);
+    const piece = new (pieces[Math.floor(Math.random() * pieces.length)]);
+    const times = Math.floor(Math.random() * 4);
 
     piece.rotate(times);
 

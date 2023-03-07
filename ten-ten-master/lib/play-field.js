@@ -4,11 +4,11 @@ class PlayField {
     constructor(size) {
         this.size = size;
         this.grid = [];
-        
-        for(let row = 0; row < size; row++ ) {
+
+        for (let row = 0; row < size; row++) {
             this.grid[row] = [];
-            
-            for(let col = 0; col < size; col++ ) {
+
+            for (let col = 0; col < size; col++) {
                 this.grid[row].push(new Cell(true));
             }
         }
@@ -27,10 +27,10 @@ class PlayField {
     }
 
     setCell(position, cell) {
-        if( !(cell instanceof(Cell)) ) {
+        if (!(cell instanceof (Cell))) {
             throw new Error('Cannot set cell to value that is not an instance of Cell');
         }
-        
+
         this.grid[position.row][position.col] = cell;
     }
 
@@ -41,8 +41,8 @@ class PlayField {
     toString() {
         let stringRep = '';
 
-        for( let row = 0; row < this.size; row++ ) {
-            for( let col = 0; col < this.size; col++ ) {
+        for (let row = 0; row < this.size; row++) {
+            for (let col = 0; col < this.size; col++) {
                 stringRep += (this.grid[row][col].isEmpty ? '+' : 'x');
             }
             stringRep += '\n';

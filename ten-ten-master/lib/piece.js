@@ -4,20 +4,20 @@ const COLORS = [
     'blue',
     'green',
     'orange',
-    'gray'
+    'gray',
 ];
 function generateColor() {
     return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
 
 let currentId = 1;
-function * generateId(initialValue) {
-    while(true) {
+function* generateId(initialValue) {
+    while (true) {
         yield currentId++;
     }
 }
 
-let idGenerator = generateId();
+const idGenerator = generateId();
 function nextId() {
     return idGenerator.next().value;
 }
@@ -26,11 +26,11 @@ function nextId() {
 // TODO: Refactor subclasses to do performance rotate
 class Piece {
     constructor(width, height, color) {
-        if( width < 1 ) {
+        if (width < 1) {
             throw new Error('Piece must have a width greater than 0');
         }
-        
-        if( height < 1 ) {
+
+        if (height < 1) {
             throw new Error('Piece must have a height greater than 0');
         }
 
@@ -40,10 +40,10 @@ class Piece {
         this.color = color ? color : generateColor();
         this.shape = [];
 
-        for(let row = 0; row < this.height; row++ ) {
+        for (let row = 0; row < this.height; row++) {
             this.shape.push([]);
 
-            for(let col = 0; col < this.width; col++ ) {
+            for (let col = 0; col < this.width; col++) {
                 this.shape[row].push(' ');
             }
         }
@@ -57,16 +57,16 @@ class Piece {
     rotate(times = 1) {
         times = Math.abs(times % 4);
 
-        for(let i = 0; i < times; i++ ) {
-            let width = this.height;
-            let height = this.width;
-            let shape = [];
+        for (let i = 0; i < times; i++) {
+            const width = this.height;
+            const height = this.width;
+            const shape = [];
 
-            for(let row = 0; row < height; row++ ) {
+            for (let row = 0; row < height; row++) {
                 shape.push([]);
 
-                for(let col = 0; col < width; col++ ) {
-                    shape[row][col] = this.shape[this.height - col -1][row];
+                for (let col = 0; col < width; col++) {
+                    shape[row][col] = this.shape[this.height - col - 1][row];
                 }
             }
 
@@ -78,8 +78,8 @@ class Piece {
 
     toString() {
         let stringRep = '';
-        for(let row = 0; row < this.height; row++ ) {
-            for(let col = 0; col < this.width; col++ ) {
+        for (let row = 0; row < this.height; row++) {
+            for (let col = 0; col < this.width; col++) {
                 stringRep += (this.shape[row][col] === FILL_SYMBOL ? FILL_SYMBOL : ' ');
             }
 

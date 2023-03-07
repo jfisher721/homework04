@@ -3,7 +3,6 @@
 // Extra: Each line completed consecutively ?x5
 // Extra: Points for lines of a single color
 
-
 class ScoreKeeper {
     constructor() {
         this.score = 0;
@@ -17,7 +16,7 @@ class ScoreKeeper {
         // One point for placing a piece
         this.score++;
 
-        if( linesCompleted ) {
+        if (linesCompleted) {
             this.score += 10 * Math.pow(2, linesCompleted);
 
             // TODO: Lines completed consecutively score

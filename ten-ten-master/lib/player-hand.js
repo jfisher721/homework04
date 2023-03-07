@@ -12,11 +12,11 @@ class PlayerHand {
     }
 
     getPieces() {
-       return this.pieces;
+        return this.pieces;
     }
 
     givePiece(piece) {
-        if( this.pieces.length === this.size ) {
+        if (this.pieces.length === this.size) {
             return false;
         }
 
@@ -25,8 +25,8 @@ class PlayerHand {
     }
 
     takePiece(piece) {
-        for(let i = 0; i < this.pieces.length; i++ ) {
-            if( this.pieces[i].id === piece.id ) {
+        for (let i = 0; i < this.pieces.length; i++) {
+            if (this.pieces[i].id === piece.id) {
                 this.pieces.splice(i, 1);
                 return true;
             }

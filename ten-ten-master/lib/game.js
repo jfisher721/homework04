@@ -1,10 +1,11 @@
-const EventEmitter = require('events');
 import PlayField from './play-field';
 import PlayerHand from './player-hand';
 import ScoreKeeper from './score-keeper';
 import Position from './position';
 import Cell from './cell';
 import { getRandomPiece } from './pieces';
+
+const EventEmitter = require('events');
 
 const DEFAULT_GRID_SIZE = 10;
 const DEFAULT_HAND_SIZE = 3;
@@ -38,31 +39,31 @@ class Game extends EventEmitter {
     }
 
     reloadPlayerHand() {
-        while( this.playerHand.getHandSize() < this.maxHandSize ) {
-            let piece = getRandomPiece();
+        while (this.playerHand.getHandSize() < this.maxHandSize) {
+            const piece = getRandomPiece();
             this.playerHand.givePiece(piece);
         }
     }
 
     // Places a piece on the play field
     placePiece(piece, position) {
-        if( !this.canPlacePiece(piece, position) ) {
+        if (!this.canPlacePiece(piece, position)) {
             console.log('Piece cannot be placed');
             return false;
         }
 
         // TODO: Make sure piece is in player's hand
-        let placeRow = position.row;
-        let placeCol = position.col;
+        const placeRow = position.row;
+        const placeCol = position.col;
 
-        for(let row = 0; row < piece.height; row++ ) {
-            for(let col = 0; col < piece.width; col++ ) {
-                if( piece.isEmptyAt(new Position(row, col)) ) {
+        for (let row = 0; row < piece.height; row++) {
+            for (let col = 0; col < piece.width; col++) {
+                if (piece.isEmptyAt(new Position(row, col))) {
                     continue;
                 }
 
-                let cellPosition = new Position(placeRow + row, placeCol + col);
-                let cell = new Cell(false, piece.color);
+                const cellPosition = new Position(placeRow + row, placeCol + col);
+                const cell = new Cell(false, piece.color);
 
                 this.playField.setCell(cellPosition, cell);
             }
@@ -76,7 +77,7 @@ class Game extends EventEmitter {
         // Remove piece from player hand
         this.playerHand.takePiece(piece);
 
-        if( !this.playerHand.pieces.length ) {
+        if (!this.playerHand.pieces.length) {
             this.reloadPlayerHand();
         }
 
@@ -88,36 +89,35 @@ class Game extends EventEmitter {
 
     // Returns true if the specified piece can be played at the specified position
     canPlacePiece(piece, position) {
-        let placeRow = position.row;
-        let placeCol = position.col;
+        const placeRow = position.row;
+        const placeCol = position.col;
 
-        if( placeRow < 0 || placeRow >= this.playField.size ) {
-            //('Invalid row position for piece placement on play field');
+        if (placeRow < 0 || placeRow >= this.playField.size) {
+            // ('Invalid row position for piece placement on play field');
             return false;
         }
 
-        if( placeCol < 0 || placeCol >= this.playField.size ) {
-            //('Invalid col position for piece placement on play field');
+        if (placeCol < 0 || placeCol >= this.playField.size) {
+            // ('Invalid col position for piece placement on play field');
             return false;
         }
 
-        if( placeRow + piece.height > this.playField.size ) {
-            //('Invalid row position. Piece extends beyond play field');
+        if (placeRow + piece.height > this.playField.size) {
+            // ('Invalid row position. Piece extends beyond play field');
             return false;
         }
 
-        if( placeCol + piece.width > this.playField.size ) {
-            //('Invalid col position. Piece extends beyond play field');
-            
+        if (placeCol + piece.width > this.playField.size) {
+            // ('Invalid col position. Piece extends beyond play field');
         }
 
-        for(let row = 0; row < piece.height; row++ ) {
-            for(let col = 0; col < piece.width; col++ ) {
-                if( piece.isEmptyAt(new Position(row, col)) ) {
+        for (let row = 0; row < piece.height; row++) {
+            for (let col = 0; col < piece.width; col++) {
+                if (piece.isEmptyAt(new Position(row, col))) {
                     continue;
                 }
 
-                if( !this.playField.isEmptyAt(new Position(placeRow + row, placeCol + col)) ) {
+                if (!this.playField.isEmptyAt(new Position(placeRow + row, placeCol + col))) {
                     return false;
                 }
             }
@@ -128,18 +128,18 @@ class Game extends EventEmitter {
 
     // Clears complete rows and columns, and scores it
     scorePlayField() {
-        let rows = [];
-        let cols = [];
+        const rows = [];
+        const cols = [];
 
-        for(let i = 0; i < this.playField.size; i++ ) {
+        for (let i = 0; i < this.playField.size; i++) {
             rows[i] = true;
             cols[i] = true;
         }
 
-        for(let row = 0; row < this.playField.size; row++ ) {
-            for(let col = 0; col < this.playField.size; col++ ) {
-                let position = new Position(row, col);
-                if( this.playField.isEmptyAt(position) ) {
+        for (let row = 0; row < this.playField.size; row++) {
+            for (let col = 0; col < this.playField.size; col++) {
+                const position = new Position(row, col);
+                if (this.playField.isEmptyAt(position)) {
                     rows[row] = false;
                     cols[col] = false;
                 }
@@ -147,17 +147,18 @@ class Game extends EventEmitter {
         }
 
         let cleared = 0;
-        for(let i = 0; i < this.playField.size; i++ ) {
-            if( rows[i] ) {
-                for(let col = 0; col < this.playField.size; col++ ) {
+        for (let i = 0; i < this.playField.size; i++) {
+            if (rows[i]) {
+                for (let col = 0; col < this.playField.size; col++) {
                     this.playField.grid[i][col].isEmpty = true;
                     this.playField.grid[i][col].color = null;
                 }
+                // eslint-disable-next-line no-plusplus
                 cleared++;
             }
 
-            if( cols[i] ) {
-                for(let row = 0; row < this.playField.size; row++ ) {
+            if (cols[i]) {
+                for (let row = 0; row < this.playField.size; row++) {
                     this.playField.grid[row][i].isEmpty = true;
                     this.playField.grid[row][i].color = null;
                 }
@@ -170,19 +171,19 @@ class Game extends EventEmitter {
     }
 
     checkEndGame() {
-        let numOfPieces = this.playerHand.getHandSize();
-        let gridSize = this.playField.getSize();
-        
-        for( let i = 0; i < numOfPieces; i++ ) {
-            let piece = this.playerHand.getPiece(i);
-            let width = piece.width;
-            let height = piece.height;
-            
-            for( let row = 0; row <= gridSize - height; row++ ) {
-                for( let col = 0; col <= gridSize - width; col++ ) {
-                    let position = new Position(row, col);
+        const numOfPieces = this.playerHand.getHandSize();
+        const gridSize = this.playField.getSize();
 
-                    if( this.canPlacePiece(piece, position) ) {
+        for (let i = 0; i < numOfPieces; i++) {
+            const piece = this.playerHand.getPiece(i);
+            const width = piece.width;
+            const height = piece.height;
+
+            for (let row = 0; row <= gridSize - height; row++) {
+                for (let col = 0; col <= gridSize - width; col++) {
+                    const position = new Position(row, col);
+
+                    if (this.canPlacePiece(piece, position)) {
                         return;
                     }
                 }
